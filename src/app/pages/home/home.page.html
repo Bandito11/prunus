@@ -1,0 +1,29 @@
+<ion-header color="primary">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Home
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-button (click)="logTime()" fill="outline" expand="block">Log Time</ion-button>
+  <ion-list lines="none">
+    <ion-item *ngFor="let log of logs">
+      <ion-label>
+        <h2>{{log.date}}</h2>
+        <h4>{{log.time}}</h4>
+        <p *ngIf="log.description">{{log.description}}</p>
+      </ion-label>
+      <ion-button fill="none" (click)="showNotes(log.time)">
+        <ion-icon name="paper"></ion-icon>
+      </ion-button>
+      <div *ngIf="toggle == log.time">
+        <textarea #notes (keyup)="addNotes({ notes: notes.value})">{{log.description}}</textarea>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>
