@@ -1,10 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-
-interface ILog {
-  date: string;
-  time: string;
-  description: string;
-}
+import { ILog } from '../../common/models';
+import { Component, ElementRef, ViewChild, AfterContentInit } from '@angular/core';
+import { PrunusDBService } from '../../prunusdb.service';
 
 const MONTHSLABELS = [
   'January',
@@ -25,10 +21,25 @@ const MONTHSLABELS = [
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements AfterContentInit {
   logs: ILog[] = [];
   @ViewChild('notes') notesElement: ElementRef;
   toggle;
+  timer;
+
+  constructor(public db: PrunusDBService) { }
+
+  ngAfterContentInit() {
+    this.timer = 0;
+    const interval = setInterval(_ => {
+      this.logs = [...this.db.getAllLogs()];
+      if (this.logs.length > 0) {
+        clearInterval(interval);
+      }
+    }, 50);
+
+  }
+
 
   showNotes(id) {
     if (this.toggle) {
@@ -41,8 +52,18 @@ export class HomePage {
     }
   }
 
-  addNotes({ notes, id }) {
+  addNotes(opts: { id: string; log: ILog, description: string }) {
+    clearTimeout(this.timer);
+    const log = {
+      ...opts.log,
+      description: opts.description
+    };
+    this.db.update(log);
+    this.updateNotes(opts);
+  }
 
+  updateNotes(opts: { id: string, description: string  }) {
+    this.logs[opts.id].description = opts.description;
   }
 
   logTime() {
@@ -82,6 +103,7 @@ export class HomePage {
     } else {
       currentDate = `${MONTHSLABELS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
     }
-    this.logs.push({ date: currentDate, time: time, description: '' });
+    this.logs.push({ date: currentDate, time: time, description: '', dateObj: new Date().toString() });
+    this.db.insert({ date: currentDate, time: time, description: '', dateObj: '' });
   }
 }
