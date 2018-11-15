@@ -24,9 +24,9 @@ const MONTHSLABELS = [
 export class HomePage implements AfterContentInit {
   logs: ILog[] = [];
   @ViewChild('notes') notesElement: ElementRef;
+  timer: number;
   toggle;
-  timer;
-
+currentDate = '';
   constructor(public db: PrunusDBService) { }
 
   ngAfterContentInit() {
@@ -39,7 +39,6 @@ export class HomePage implements AfterContentInit {
     }, 50);
 
   }
-
 
   showNotes(id) {
     if (this.toggle) {
@@ -103,7 +102,8 @@ export class HomePage implements AfterContentInit {
     } else {
       currentDate = `${MONTHSLABELS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
     }
-    this.logs.push({ date: currentDate, time: time, description: '', dateObj: new Date().toString() });
+    // this.logs.push({ date: currentDate, time: time, description: '', dateObj: new Date().toString() });
     this.db.insert({ date: currentDate, time: time, description: '', dateObj: '' });
+    this.logs = [{ date: currentDate, time: time, description: '', dateObj: new Date().toString() }, ...this.logs];
   }
 }

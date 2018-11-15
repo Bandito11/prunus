@@ -136,7 +136,11 @@ export class PrunusDBService {
 
   getAllLogs() {
     try {
-      return logsColl.data;
+      return logsColl.chain().sort((rec1, rec2) => {
+        if (rec1.$loki < rec2.$loki) {
+          return 1;
+        }
+      }).data();
     } catch (error) {
       return [];
     }
