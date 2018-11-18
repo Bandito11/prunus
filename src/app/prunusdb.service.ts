@@ -2,6 +2,7 @@ import { ILog, IResponse } from './common/models';
 import { Injectable } from '@angular/core';
 import * as Loki from 'lokijs';
 import { IonicStorageAdapter } from './adapter';
+import { formattedTime, formattedDate } from './common/formatted';
 
 /**
  * Collections
@@ -14,10 +15,9 @@ let logsColl: Collection<ILog>;
 let prunusDB: Loki;
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class PrunusDBService {
-
   constructor() {
     this.createDB();
   }
@@ -44,7 +44,8 @@ export class PrunusDBService {
     let response: IResponse<null> = {
       success: false,
       error: null,
-      data: undefined
+      data: undefined,
+      dateStamp: new Date().toString()
     };
     const results = logsColl.findOne({
       date: {
@@ -57,7 +58,7 @@ export class PrunusDBService {
     if (results) {
       response = {
         ...response,
-        error: 'Cannot add log already created in the databse.'
+        error: 'Cannot add log already created in the database.'
       };
     } else {
       logsColl.insertOne(log);
@@ -72,7 +73,8 @@ export class PrunusDBService {
     let response: IResponse<string> = {
       success: false,
       error: null,
-      data: undefined
+      data: undefined,
+      dateStamp: new Date().toString()
     };
     const results = logsColl.findOne({
       date: {
@@ -111,7 +113,8 @@ export class PrunusDBService {
     let response: IResponse<string> = {
       success: false,
       error: null,
-      data: undefined
+      data: undefined,
+      dateStamp: new Date().toString()
     };
     const results = logsColl.find({
       $loki: {
@@ -136,13 +139,46 @@ export class PrunusDBService {
 
   getAllLogs() {
     try {
-      return logsColl.chain().sort((rec1, rec2) => {
-        if (rec1.$loki < rec2.$loki) {
-          return 1;
-        }
-      }).data();
+      return logsColl
+        .chain()
+        .sort((rec1, rec2) => {
+          if (rec1.$loki < rec2.$loki) {
+            return 1;
+          }
+        })
+        .data();
     } catch (error) {
       return [];
+    }
+  }
+
+  getTodayLogs() {
+    const currentDate = new Date();
+    let response: IResponse<number> = {
+      success: false,
+      error: null,
+      data: undefined,
+      dateStamp: currentDate.toString()
+    };
+    const date = formattedDate(currentDate);
+    const record = logsColl.find({
+      date: {
+        $eq: date
+      }
+    });
+    if (record) {
+      response = {
+        ...response,
+        success: true,
+        data: record.length
+      };
+      return response;
+    } else {
+      response = {
+        ...response,
+        error: 'There was no record on DB for this date'
+      };
+      return response;
     }
   }
 }

@@ -3,18 +3,23 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <!-- <ion-title>
-      List
-    </ion-title> -->
+    <!--
+      <ion-title>
+        List
+      </ion-title>
+    -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<h2>Times Logged Today:</h2>
-
-<h2>Times Logged in:</h2>
-<!-- ionic Date Component goes here! -->
-
-<h4>Date: <span>Chosen Date</span></h4>
-<h4>Description: <span>Chosen Description</span></h4>
+  <div>
+    <h2>Times Logged Today:</h2>
+    <h4>{{todayLogs}}</h4>
+  </div>
+  <div>
+    <h2>Times Logged in:</h2>
+    <!-- ionic Date Component goes here! -->
+  </div>
+  <h4>Date: <span>Chosen Date</span></h4>
+  <h4>Description: <span>Chosen Description</span></h4>
 </ion-content>

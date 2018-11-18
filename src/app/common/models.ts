@@ -9,5 +9,11 @@ export interface IResponse<T> {
   success: boolean;
   error: string;
   data: T;
-  dateStamp?: string;
+  dateStamp: string;
+}
+
+export interface ICalendar {
+  day: string;
+  month: string;
+  year: string;
 }
