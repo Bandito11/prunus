@@ -152,31 +152,41 @@ export class PrunusDBService {
     }
   }
 
-  getTodayLogs() {
-    const currentDate = new Date();
+  getLogs(date) {
     let response: IResponse<number> = {
       success: false,
       error: null,
       data: undefined,
-      dateStamp: currentDate.toString()
+      dateStamp: new Date().toString()
     };
-    const date = formattedDate(currentDate);
-    const record = logsColl.find({
-      date: {
-        $eq: date
+    try {
+      const record = logsColl.find({
+        date: {
+          $eq: date
+        }
+      });
+      if (record) {
+        response = {
+          ...response,
+          success: true,
+          data: record.length
+        };
+        return response;
+      } else {
+        response = {
+          ...response,
+          error: 'There was no record on DB for this date'
+        };
+        return response;
       }
-    });
-    if (record) {
+    } catch (error) {
+      if (logsColl) {
+        console.error(error);
+      }
       response = {
         ...response,
         success: true,
-        data: record.length
-      };
-      return response;
-    } else {
-      response = {
-        ...response,
-        error: 'There was no record on DB for this date'
+        data: 0
       };
       return response;
     }

@@ -12,14 +12,16 @@
 </ion-header>
 
 <ion-content>
-  <div>
-    <h2>Times Logged Today:</h2>
-    <h4>{{todayLogs}}</h4>
-  </div>
-  <div>
-    <h2>Times Logged in:</h2>
-    <!-- ionic Date Component goes here! -->
-  </div>
-  <h4>Date: <span>Chosen Date</span></h4>
-  <h4>Description: <span>Chosen Description</span></h4>
+  <ion-list lines="none">
+    <ion-item>
+      <h4>Amount of logs today: {{todayLogs}}</h4>
+    </ion-item>
+    <ion-item detail="true" detailIcon="arrow-dropdown">
+      <ion-label>Logs from</ion-label>
+      <ion-datetime #date (ionChange)="getDateLogs(date.value)" placeholder={{thisDay}} display-format="MMM DD, YYYY" min="2018-11-30"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <h4>Amount of logs on {{thisDay}}: {{chosenDateLogs}}</h4>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -10,7 +10,7 @@ import { formattedTime, formattedDate } from '../../common/formatted';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements AfterContentInit {
-  logs: ILog[] = [];
+  logs: ILog[];
   @ViewChild('notes') notesElement: ElementRef;
   timer: number;
   toggle;
@@ -21,11 +21,10 @@ export class HomePage implements AfterContentInit {
     this.timer = 0;
     const interval = setInterval(_ => {
       this.logs = [...this.db.getAllLogs()];
-      if (this.logs.length > 0) {
+      if (this.logs.length) {
         clearInterval(interval);
       }
     }, 50);
-
   }
 
   showNotes(id) {
