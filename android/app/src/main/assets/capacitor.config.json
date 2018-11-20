@@ -1,0 +1,7 @@
+{
+  "appId": "xyz.abey.prunus",
+  "appName": "Abey",
+  "bundledWebRuntime": false,
+  "webDir": "www",
+  "linuxAndroidStudioPath": "/home/bandito/Documents/android-studio/bin/studio.sh"
+}
