@@ -186,7 +186,7 @@ export class PrunusDBService {
       response = {
         ...response,
         success: true,
-        data: 0
+        data: -1
       };
       return response;
     }

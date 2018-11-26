@@ -1,5 +1,5 @@
-<ion-header color="primary">
-  <ion-toolbar>
+<ion-header>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -18,7 +18,7 @@
     </ion-item>
     <ion-item detail="true" detailIcon="arrow-dropdown">
       <ion-label>Logs from</ion-label>
-      <ion-datetime #date (ionChange)="getDateLogs(date.value)" placeholder={{thisDay}} display-format="MMM DD, YYYY" min="2018-11-30"></ion-datetime>
+      <ion-datetime #date (ionChange)="getDateLogs(date.value)" placeholder={{thisDay}} display-format="MMM DD, YYYY" min="{{currentDate}}"></ion-datetime>
     </ion-item>
     <ion-item>
       <h4>Amount of logs on {{thisDay}}: {{chosenDateLogs}}</h4>

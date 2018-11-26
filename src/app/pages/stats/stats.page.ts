@@ -10,20 +10,22 @@ import { formattedDate, shortFormattedDate } from '../../common/formatted';
 })
 export class StatsPage implements OnInit {
 
-  todayLogs;
-  chosenDateLogs;
-  thisDay;
-  currentDate = new Date();
-  timer;
+  todayLogs: number;
+  chosenDateLogs: number;
+  thisDay: string;
+  today = new Date();
+  timer: number;
+  currentDate: string;
   constructor(public db: PrunusDBService) { }
 
   ngOnInit() {
+    this.currentDate = `${this.today.getFullYear()}-${(this.today.getMonth() + 1).toString()}-${this.today.getDate()}`;
     this.timer = 0;
     const interval = setInterval(_ => {
       this.getTodayLogs();
-      this.thisDay = formattedDate(this.currentDate, 'stats');
-      this.getDateLogs(`${this.currentDate.getFullYear()}-${this.currentDate.getMonth() + 1}-${this.currentDate.getDate()}`);
-      if (this.todayLogs) {
+      this.thisDay = formattedDate(this.today, 'stats');
+      this.getDateLogs(`${this.today.getFullYear()}-${this.today.getMonth() + 1}-${this.today.getDate()}`);
+      if (this.todayLogs > -1) {
         clearInterval(interval);
       }
     }, 50);
@@ -52,11 +54,11 @@ export class StatsPage implements OnInit {
       success: false,
       error: null,
       data: undefined,
-      dateStamp: this.currentDate.toString()
+      dateStamp: this.today.toString()
     };
     try {
       todayResponse = {
-        ...this.db.getLogs(formattedDate(this.currentDate))
+        ...this.db.getLogs(formattedDate(this.today))
       };
     } catch (error) {
       console.error(error);
@@ -65,7 +67,6 @@ export class StatsPage implements OnInit {
       this.todayLogs = todayResponse.data;
     } else if (todayResponse.error) {
       console.error(todayResponse.error);
-      this.todayLogs = '';
     }
   }
 }
