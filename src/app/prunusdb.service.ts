@@ -2,7 +2,7 @@ import { ILog, IResponse } from './common/models';
 import { Injectable } from '@angular/core';
 import * as Loki from 'lokijs';
 import { IonicStorageAdapter } from './adapter';
-import { formattedTime, formattedDate } from './common/formatted';
+import { formatTime, dateToString } from './common/formatted';
 
 /**
  * Collections

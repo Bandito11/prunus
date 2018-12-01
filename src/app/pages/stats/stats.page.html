@@ -18,7 +18,7 @@
     </ion-item>
     <ion-item detail="true" detailIcon="arrow-dropdown">
       <ion-label>Logs from</ion-label>
-      <ion-datetime #date (ionChange)="getDateLogs(date.value)" placeholder={{thisDay}} display-format="MMM DD, YYYY" min="{{currentDate}}"></ion-datetime>
+      <ion-datetime #date (ionChange)="getDateLogs(date.value)" placeholder={{thisDay}} display-format="MMM DD, YYYY"></ion-datetime>
     </ion-item>
     <ion-item>
       <h4>Amount of logs on {{thisDay}}: {{chosenDateLogs}}</h4>

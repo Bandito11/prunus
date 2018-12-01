@@ -1,7 +1,7 @@
 import { ILog } from '../../common/models';
 import { Component, ElementRef, ViewChild, AfterContentInit } from '@angular/core';
 import { PrunusDBService } from '../../prunusdb.service';
-import { formattedTime, formattedDate } from '../../common/formatted';
+import { formatTime, dateToString } from '../../common/formatted';
 
 
 @Component({
@@ -54,8 +54,8 @@ export class HomePage implements AfterContentInit {
 
   logTime() {
     const date = new Date();
-    const time = formattedTime(date);
-    const currentDate = formattedDate(date);
+    const time = formatTime(date);
+    const currentDate = dateToString(date);
     // this.logs.push({ date: currentDate, time: time, description: '', dateObj: new Date().toString() });
     try {
       this.db.insert({ date: currentDate, time: time, description: '', dateObj: '' });

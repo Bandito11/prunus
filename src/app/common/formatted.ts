@@ -14,7 +14,7 @@ const MONTHSLABELS = [
   'December'
 ];
 
-export function formattedTime(date: Date) {
+export function formatTime(date: Date) {
   let time = '';
   if (date.getHours() === 0) {
     time = `12:`;
@@ -47,17 +47,17 @@ export function formattedTime(date: Date) {
   return time;
 }
 
-export function formattedDate(date: Date, opts?: string) {
+export function dateToString(date: Date, opts?: string) {
   let currentDate;
   if (opts === 'stats') {
     if (date.getMonth() < 10) {
-      currentDate = `${MONTHSLABELS[date.getMonth()].substring(0, 3)} 0${date.getDate()}, ${date.getFullYear()}`;
+      currentDate = `${MONTHSLABELS[date.getMonth()].substring(0, 3)} ${date.getDate()}, ${date.getFullYear()}`;
     } else {
       currentDate = `${MONTHSLABELS[date.getMonth()].substring(0, 3)} ${date.getDate()}, ${date.getFullYear()}`;
     }
   } else {
     if (date.getMonth() < 10) {
-      currentDate = `${MONTHSLABELS[date.getMonth()]} 0${date.getDate()}, ${date.getFullYear()}`;
+      currentDate = `${MONTHSLABELS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
     } else {
       currentDate = `${MONTHSLABELS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
     }
@@ -65,7 +65,7 @@ export function formattedDate(date: Date, opts?: string) {
   return currentDate;
 }
 
-export function shortFormattedDate(date: string) {
+export function toISOFormat(date: string) {
   const currentDate = {
     // tslint:disable-next-line:radix
     year: parseInt(date.substring(0, 4)),
@@ -75,10 +75,6 @@ export function shortFormattedDate(date: string) {
     day: parseInt(date.substring(8, date.length))
   };
   let chosenDate = '';
-  if (currentDate.month < 10) {
-    chosenDate = `${MONTHSLABELS[currentDate.month].substring(0, 3)} 0${currentDate.day}, ${currentDate.year}`;
-  } else {
-    chosenDate = `${MONTHSLABELS[currentDate.month].substring(0, 3)} ${currentDate.day}, ${currentDate.year}`;
-  }
+  chosenDate = `${MONTHSLABELS[currentDate.month].substring(0, 3)} ${currentDate.day}, ${currentDate.year}`;
   return chosenDate;
 }

@@ -1,7 +1,7 @@
 import { PrunusDBService } from './../../prunusdb.service';
 import { Component, OnInit } from '@angular/core';
 import { IResponse } from '../../common/models';
-import { formattedDate, shortFormattedDate } from '../../common/formatted';
+import { dateToString, toISOFormat } from '../../common/formatted';
 
 @Component({
   selector: 'app-stats',
@@ -15,15 +15,13 @@ export class StatsPage implements OnInit {
   thisDay: string;
   today = new Date();
   timer: number;
-  currentDate: string;
   constructor(public db: PrunusDBService) { }
 
   ngOnInit() {
-    this.currentDate = `${this.today.getFullYear()}-${(this.today.getMonth() + 1).toString()}-${this.today.getDate()}`;
     this.timer = 0;
     const interval = setInterval(_ => {
       this.getTodayLogs();
-      this.thisDay = formattedDate(this.today, 'stats');
+      this.thisDay = dateToString(this.today, 'stats');
       this.getDateLogs(`${this.today.getFullYear()}-${this.today.getMonth() + 1}-${this.today.getDate()}`);
       if (this.todayLogs > -1) {
         clearInterval(interval);
@@ -40,8 +38,8 @@ export class StatsPage implements OnInit {
       // tslint:disable-next-line:radix
       getDate: () => parseInt(opts.substring(8, opts.length))
     };
-    this.thisDay = shortFormattedDate(opts);
-    const response = this.db.getLogs(formattedDate(<Date>date));
+    this.thisDay = toISOFormat(opts);
+    const response = this.db.getLogs(dateToString(<Date>date));
     if (response.success) {
       this.chosenDateLogs = response.data;
     } else {
@@ -58,7 +56,7 @@ export class StatsPage implements OnInit {
     };
     try {
       todayResponse = {
-        ...this.db.getLogs(formattedDate(this.today))
+        ...this.db.getLogs(dateToString(this.today))
       };
     } catch (error) {
       console.error(error);
