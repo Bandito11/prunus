@@ -16,8 +16,11 @@
       <ion-item *virtualItem="let log; let i = index"> -->
         <ion-item *ngFor="let log of logs; let i = index">
         <ion-label>
-          <h2>{{log.date}}</h2>
-          <h4>{{log.time}}</h4>
+          <h1>{{log.date}}</h1>
+          <h3>{{log.time}}</h3>
+          <div *ngIf="log.elapsedTime">
+            <h6>Elapsed time from last log: {{log.elapsedTime}}</h6>
+          </div>
           <p *ngIf="log.description">{{log.description}}</p>
         </ion-label>
         <ion-button fill="none" (click)="showNotes(log.time)">

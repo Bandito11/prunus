@@ -10,7 +10,7 @@ import { formatTime, dateToString } from '../../common/formatted';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements AfterContentInit {
-  logs: ILog[];
+  logs;
   @ViewChild('notes') notesElement: ElementRef;
   timer: number;
   toggle;
@@ -20,11 +20,42 @@ export class HomePage implements AfterContentInit {
   ngAfterContentInit() {
     this.timer = 0;
     const interval = setInterval(_ => {
-      this.logs = [...this.db.getAllLogs()];
+      this.logs = [...this.getLogs()];
       if (this.logs.length) {
         clearInterval(interval);
       }
     }, 50);
+  }
+
+  getLogs() {
+    const logs = this.db.getAllLogs();
+    const res = this.addElapsedTime(logs);
+    return res;
+  }
+
+  addElapsedTime(logs: ILog[]) {
+    const res = logs.map((log, index) => {
+      if (index === 0) {
+        return {
+          ...log,
+          elapsedTime: ''
+        };
+      } else {
+        const logDate = new Date(`${log.date} ${log.time}`);
+        const prevLogDate = new Date(`${logs[index - 1].date} ${logs[index - 1].time}`);
+        const timeDifference = prevLogDate.valueOf() - logDate.valueOf();
+        let seconds: number | string = (timeDifference / 1000) % 60;
+        let minutes: number | string = ((timeDifference / (1000 * 60)) % 60);
+        const hours = ((timeDifference / (1000 * 60 * 60)) % 24).toFixed(0);
+        minutes = (minutes < 10) ? '0' + minutes.toFixed(0) : minutes.toFixed(0), 0;
+        seconds = (seconds < 10) ? '0' + seconds.toFixed(0) : seconds.toFixed(0), 0;
+        return {
+          ...log,
+          elapsedTime: `${hours}:${minutes}:${seconds}`
+        };
+      }
+    });
+    return res;
   }
 
   showNotes(id) {
@@ -62,6 +93,7 @@ export class HomePage implements AfterContentInit {
     } catch (error) {
       console.error(error);
     }
-    this.logs = [{ date: currentDate, time: time, description: '', dateObj: new Date().toString() }, ...this.logs];
+    const logs = [{ date: currentDate, time: time, description: '', dateObj: new Date().toString() }, ...this.logs];
+    this.logs = this.addElapsedTime(logs);
   }
 }
