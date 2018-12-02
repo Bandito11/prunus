@@ -149,7 +149,9 @@ export class PrunusDBService {
       //   .data();
       return logsColl.data.reverse();
     } catch (error) {
-      return [];
+      if (logsColl) {
+        console.error(error);
+      }
     }
   }
 

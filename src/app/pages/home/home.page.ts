@@ -21,7 +21,7 @@ export class HomePage implements AfterContentInit {
     this.timer = 0;
     const interval = setInterval(_ => {
       this.logs = this.getLogs();
-      if (this.logs.length) {
+      if (this.logs.length > -1) {
         clearInterval(interval);
       }
     }, 50);
