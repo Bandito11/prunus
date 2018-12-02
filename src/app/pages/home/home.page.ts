@@ -28,9 +28,7 @@ export class HomePage implements AfterContentInit {
   }
 
   getLogs() {
-    const logs = this.db.getAllLogs();
-    const res = this.addElapsedTime(logs);
-    return res;
+    return this.addElapsedTime(this.db.getAllLogs());
   }
 
   addElapsedTime(logs: ILog[]) {

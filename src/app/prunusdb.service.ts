@@ -139,14 +139,15 @@ export class PrunusDBService {
 
   getAllLogs() {
     try {
-      return logsColl
-        .chain()
-        .sort((rec1, rec2) => {
-          if (rec1.$loki < rec2.$loki) {
-            return 1;
-          }
-        })
-        .data();
+      // return logsColl
+      //   .chain()
+      //   .sort((rec1, rec2) => {
+      //     if (rec1.$loki < rec2.$loki) {
+      //       return 1;
+      //     }
+      //   })
+      //   .data();
+      return logsColl.data.reverse();
     } catch (error) {
       return [];
     }
