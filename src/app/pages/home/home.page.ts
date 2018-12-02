@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, AfterContentInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { PrunusDBService } from '../../prunusdb.service';
 import { formatTime, dateToString } from '../../common/formatted';
 import { ILog } from '../../common/models';
@@ -9,7 +9,7 @@ import { ILog } from '../../common/models';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements AfterContentInit {
+export class HomePage implements AfterViewInit, OnInit {
   logs: any[];
   @ViewChild('notes') notesElement: ElementRef;
   timer: number;
@@ -17,8 +17,12 @@ export class HomePage implements AfterContentInit {
   currentDate = '';
   constructor(public db: PrunusDBService) { }
 
-  ngAfterContentInit() {
+  ngOnInit() {
     this.timer = 0;
+
+  }
+
+  ngAfterViewInit() {
     const interval = setInterval(_ => {
       this.logs = this.getLogs();
       if (this.logs.length > -1) {
@@ -28,7 +32,13 @@ export class HomePage implements AfterContentInit {
   }
 
   getLogs() {
-    return this.addElapsedTime(this.db.getAllLogs());
+    try {
+      const tempLogs = this.db.getAllLogs();
+      const logs = this.addElapsedTime(tempLogs);
+      return logs;
+    } catch (error) {
+      return;
+    }
   }
 
   addElapsedTime(logs: ILog[]) {
