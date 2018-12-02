@@ -148,7 +148,9 @@ export class PrunusDBService {
         })
         .data();
     } catch (error) {
-      return [];
+      if (logsColl) {
+        console.error(error);
+      }
     }
   }
 
