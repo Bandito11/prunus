@@ -47,8 +47,8 @@ export class HomePage implements AfterContentInit {
         let seconds: number | string = (timeDifference / 1000) % 60;
         let minutes: number | string = ((timeDifference / (1000 * 60)) % 60);
         const hours = ((timeDifference / (1000 * 60 * 60)) % 24).toFixed(0);
-        minutes = (minutes < 10) ? '0' + minutes.toFixed(0) : minutes.toFixed(0), 0;
-        seconds = (seconds < 10) ? '0' + seconds.toFixed(0) : seconds.toFixed(0), 0;
+        minutes = (minutes < 10) ? '0' + minutes.toFixed(0) : minutes.toFixed(0);
+        seconds = (seconds < 10) ? '0' + seconds.toFixed(0) : seconds.toFixed(0);
         return {
           ...log,
           elapsedTime: `${hours}:${minutes}:${seconds}`
