@@ -1,7 +1,7 @@
-import { ILog } from '../../common/models';
 import { Component, ElementRef, ViewChild, AfterContentInit } from '@angular/core';
 import { PrunusDBService } from '../../prunusdb.service';
 import { formatTime, dateToString } from '../../common/formatted';
+import { ILog } from '../../common/models';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { formatTime, dateToString } from '../../common/formatted';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements AfterContentInit {
-  logs;
+  logs: any[];
   @ViewChild('notes') notesElement: ElementRef;
   timer: number;
   toggle;
@@ -20,7 +20,7 @@ export class HomePage implements AfterContentInit {
   ngAfterContentInit() {
     this.timer = 0;
     const interval = setInterval(_ => {
-      this.logs = [...this.getLogs()];
+      this.logs = this.getLogs();
       if (this.logs.length) {
         clearInterval(interval);
       }
