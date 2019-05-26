@@ -1,4 +1,4 @@
-<ion-header >
+<ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -12,24 +12,21 @@
 <ion-content padding>
   <ion-button (click)="logTime()" fill="outline" expand="block">Log Time</ion-button>
   <ion-list lines="none">
-    <!-- <ion-virtual-scroll [items]="logs" approxItemHeight="80px">
-      <ion-item *virtualItem="let log; let i = index"> -->
-        <ion-item *ngFor="let log of logs; let i = index">
-        <ion-label>
-          <h1>{{log.date}}</h1>
-          <h3>{{log.time}}</h3>
-          <div *ngIf="log.elapsedTime">
-            <h6>Elapsed time from last log: {{log.elapsedTime}}</h6>
-          </div>
-          <p *ngIf="log.description">{{log.description}}</p>
-        </ion-label>
-        <ion-button fill="none" (click)="showNotes(log.time)">
-          <ion-icon name="paper"></ion-icon>
-        </ion-button>
-        <div *ngIf="toggle == log.time">
-          <textarea #notes (keyup)="addNotes({ id: i, log: log, description: notes.value})">{{log.description}}</textarea>
+    <ion-item *ngFor="let log of logs; let i = index">
+      <ion-label>
+        <h1>{{log.date}}</h1>
+        <h3>{{log.time}}</h3>
+        <div *ngIf="log.elapsedTime">
+          <h6>Elapsed time from last log: {{log.elapsedTime}}</h6>
         </div>
-      </ion-item>
-      <!-- </ion-virtual-scroll> -->
+        <p *ngIf="log.description">{{log.description}}</p>
+      </ion-label>
+      <ion-button fill="none" (click)="showNotes(log.time)">
+        <ion-icon name="paper"></ion-icon>
+      </ion-button>
+      <div *ngIf="toggle == log.time">
+        <textarea #notes (keyup)="addNotes({ id: i, log: log, description: notes.value})">{{log.description}}</textarea>
+      </div>
+    </ion-item>
   </ion-list>
 </ion-content>
